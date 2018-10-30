@@ -1,12 +1,47 @@
 <?php
 elgg_load_js('elgg.slider.edit');
 
+// Advanced editor mode by default for admins only
+$advanced_mode = get_input('edit_mode', '');
+if (!empty($advanced_mode)) {
+	if ($advanced_mode == 'basic') $advanced_mode = false;
+	else $advanced_mode = true;
+} else {
+	$advanced_mode = elgg_is_admin_logged_in();
+}
+
+$edit_mode_toggle = '<p>' . elgg_echo('slider:edit_mode') . '&nbsp;: 
+	<strong class="slider-mode-basic">' . elgg_echo('slider:edit_mode:basic') . '</strong>
+	<a href="javascript:void(0);" onClick="javascript:elgg.slider.edit.mode(\'basic\');" class="slider-mode-full">' . elgg_echo('slider:edit_mode:basic') . '</a>
+	 / 
+	<strong class="slider-mode-full">' . elgg_echo('slider:edit_mode:full') . '</strong>
+	<a href="javascript:void(0);" onClick="javascript:elgg.slider.edit.mode(\'full\')" class="slider-mode-basic">' . elgg_echo('slider:edit_mode:full') . '</a>
+	</p>';
+
+$edit_mode_toggle .= '<script>';
+if ($advanced_mode) {
+	$edit_mode_toggle .= '
+		$(document).ready(function() {
+			elgg.slider.edit.mode(\'full\');
+		});
+		';
+} else {
+	$edit_mode_toggle .= '
+		$(document).ready(function() {
+			elgg.slider.edit.mode(\'basic\');
+		});
+		';
+}
+$edit_mode_toggle .= '</script>';
+
 // Get current slider (if exists)
 $slider = elgg_extract('entity', $vars);
-if (!elgg_instanceof($slider, 'object', 'slider')) {
+if (elgg_instanceof($slider, 'object', 'slider')) {
 	$guid = get_input('guid', false);
+	// Add support for unique identifiers
 	$slider = slider_get_entity_by_name($guid);
 }
+
 
 $editor_opts = array('rawtext' => elgg_echo('slider:editor:no'), 'longtext' => elgg_echo('slider:editor:yes'));
 
@@ -35,6 +70,9 @@ if (elgg_instanceof($slider, 'object', 'slider')) {
 	$slider_width = '100%'; // Slider container width
 	$slider_access = get_default_access(); // Default access level
 	$editor = 'rawtext';
+	// Use provided name if set
+	$slider_title = get_input('title');
+	$slider_name = get_input('name');
 	
 	//$slidercss_main = $vars['slidercss_main']; // CSS for main ul tag
 	//$slidercss_textslide = $vars['slidercss_textslide']; // CSS for li .textslide
@@ -46,8 +84,10 @@ if (elgg_instanceof($slider, 'object', 'slider')) {
 // Param vars
 $content = '';
 if ($slider) { $content .= elgg_view('input/hidden', array('name' => 'guid', 'value' => $slider->guid)) . '</p>'; }
+$content .= elgg_view('input/hidden', array('name' => 'edit_mode', 'value' => "")) . '</p>';
 
-$content .= '<div style="width:48%; float:left;">';
+
+$content .= '<div style="width:48%; float:left;" class="slider-mode-full">';
 	$content .= '<p><label>' . elgg_echo('slider:edit:title') . ' ' . elgg_view('input/text', array('name' => 'title', 'value' => $slider_title, 'style' => "width: 40ex; max-width: 80%;")) . '</label><br /><em>' . elgg_echo('slider:edit:title:details') . '</em></p>';
 	$content .= '<p><label>' . elgg_echo('slider:edit:name') . ' ' . elgg_view('input/text', array('name' => 'name', 'value' => $slider_name, 'style' => "width: 40ex; max-width: 80%;")) . '</label><br /><em>' . elgg_echo('slider:edit:name:details') . '</em></p>';
 	$content .= '<p><label>' . elgg_echo('slider:edit:description') . ' ' . elgg_view('input/plaintext', array('name' => 'description', 'value' => $slider_description, 'style' => 'height:15ex;')) . '</label><br /><em>' . elgg_echo('slider:edit:description:details') . '</em></p>';
@@ -58,7 +98,7 @@ $content .= '<div style="width:48%; float:left;">';
 	$content .= '<p><a href="javascript:void(0);" onClick="$(\'#slider-config-documentation\').toggle();">' . elgg_echo('slider:edit:config:toggledocumentation') . '</a></p>';
 $content .= '</div>';
 
-$content .= '<div style="width:48%; float:right;">';
+$content .= '<div style="width:48%; float:right;" class="slider-mode-full">';
 	// Access
 	$content .= '<p><label>' . elgg_echo('slider:edit:access') . ' ' . elgg_view('input/access', array('name' => 'access_id', 'value' => $slider_access)) . '</label><br /><em>' . elgg_echo('slider:edit:access:details') . '</em></p>';
 	
@@ -166,7 +206,7 @@ $content .= '<p><strong>' . elgg_echo('slider:edit:content') . '</strong><br />'
 $content .= '<em>' . elgg_echo('slider:edit:content:details') . '</em></p>';
 
 // Enable/disable editor (by default)
-$content .= '<p><label>' . elgg_echo('slider:edit:editor') . ' ' . elgg_view('input/pulldown', array('name' => 'editor', 'value' => $vars['entity']->editor, 'options_values' => $editor_opts)) . '</label><br /><em>' . elgg_echo('slider:edit:editor:details') . '</em></p>';
+$content .= '<p class="slider-mode-full"><label>' . elgg_echo('slider:edit:editor') . ' ' . elgg_view('input/pulldown', array('name' => 'editor', 'value' => $vars['entity']->editor, 'options_values' => $editor_opts)) . '</label><br /><em>' . elgg_echo('slider:edit:editor:details') . '</em></p>';
 
 if (!empty($slider_slides) && !is_array($slider_slides)) { $slider_slides = array($slider_slides); }
 if (is_array($slider_slides)) {
@@ -191,6 +231,8 @@ $content .= '<p>' . elgg_view('input/submit', array('value' => elgg_echo('slider
 
 /* AFFICHAGE DE LA PAGE D'ÉDITION */
 echo '<h2>' . elgg_echo('slider:edit') . '</h2>';
+
+echo $edit_mode_toggle;
 
 // Affichage du formulaire
 // Display the form - Affichage du formulaire

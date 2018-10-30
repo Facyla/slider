@@ -1,14 +1,13 @@
 <?php
 $entity = elgg_extract('entity', $vars);
 if (!elgg_instanceof($entity, 'object', 'slider')) { return; }
+
 $tags = $entity->tags;
 $title = $entity->title;
 $pagetype = $entity->pagetype;
 $description = $entity->description;
-
 $access = $entity->access_id;
 $time_updated = $entity->time_updated;
-
 $owner_guid = $entity->owner_guid;
 $owner = get_entity($owner_guid);
 //$container_guid = $entity->container_guid;
@@ -20,11 +19,6 @@ if (!empty($description)) {
 $icon = elgg_view( "graphics/icon", array( 'entity' => $vars['entity'], 'size' => 'small', ) );
 $info = '';
 
-/*
-if ($entity->canEdit()) {
-	$info .= '<a href="' . elgg_get_site_url() . "slider/edit/" . $entity->guid . '" class="elgg-button elgg-button-action" style="float:right;">' . elgg_echo('edit') . '</a>';
-}
-*/
 $info .= elgg_view_menu('entity', array(
 	'entity' => $vars['entity'],
 	'handler' => 'slider',

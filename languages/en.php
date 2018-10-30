@@ -1,6 +1,6 @@
 <?php
-$en = array(
-	
+
+return array(
 	'slider' => "Slider",
 
 	/* Settings */
@@ -83,9 +83,8 @@ $en = array(
 	'slider:cmspages:instructions:shortcode' => " - with a template short, alternatively, into a template CMSPage: <strong>{{[slider id=\"%s\"]}}</strong>",
 	'slider:cmspages:notice' => "IMPORTANT: only CMS pages of type \"Template\" can display sliders! You may need to update page type to display it.",
 	'slider:iframe:instructions' => " - with an embed code, on any other sites: <strong>&lt;iframe src=\"" . elgg_get_site_url() . "slider/view/%s?embed=full\"&gt;&lt;/iframe&gt;</strong>",
-	'slider:deleted' => "Slider deleted",	
 	
-);
+	'slider:deleted' => "Slider deleted",	
 
-add_translation("en",$en);
+);
 

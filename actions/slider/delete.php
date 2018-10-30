@@ -4,7 +4,7 @@
  * 
  * @package Elgg
  * @subpackage slider
- * @author Facyla 2015
+ * @author Facyla 2016
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
 */
 

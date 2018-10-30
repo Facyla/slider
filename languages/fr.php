@@ -1,6 +1,6 @@
 <?php
-$french = array(
-	
+
+return array(
 	'slider' => "Slider",
 
 	/* Settings */
@@ -34,6 +34,7 @@ $french = array(
 	'slider:edit:clone' => "Dupliquer ce slider",
 	'slider:cloned' => "Slider dupliqué",
 	'slider:clone:error' => "Erreur lors de la duplication du slider",
+	
 	
 	'slider:showinstructions' => "Afficher le mode d'emploi",
 	'slider:instructions' => "Les diaporamas peuvent être définis ici, puis insérés dans les articles via un shortcode <q>[slider id=\"12345\"]</q>",
@@ -85,6 +86,4 @@ $french = array(
 	'slider:deleted' => "Diaporama supprimé",
 	
 );
-
-add_translation("fr",$french);
 

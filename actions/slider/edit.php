@@ -5,7 +5,7 @@
  * @package Slider
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Facyla
- * @copyright Facyla 2010-2015
+ * @copyright Facyla 2010-2016
  * @link http://id.facyla.net/
  */
 
@@ -77,6 +77,11 @@ if ($slider->save()) {
 
 // Forward back to the edit page
 $forward = elgg_get_site_url() . 'slider/edit/' . $slider->guid;
+$edit_mode = get_input('edit_mode', '');
+if (!empty($edit_mode)) {
+	$forward .= '?edit_mode=' . $edit_mode;
+}
 
 forward($forward);
+
 
