@@ -20,8 +20,8 @@ They are available for developpers to build upon them.
 - Coin Slider : 4 transition effects
 
 
-
 ## History
+
 0.9 : 20150719
   - Update to Elgg 1.11
   - Specific rendering views for 5 different slider vendors

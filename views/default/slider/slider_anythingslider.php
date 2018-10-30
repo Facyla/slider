@@ -112,7 +112,6 @@ $(function(){
 		mode : 'f',
 		resizeContents : true,
 		expand : true,
-		buildArrows : false,
 		buildNavigation : true,
 		buildStartStop : false,
 		//toggleControls : true,
@@ -125,8 +124,8 @@ $(function(){
 </script>
 
 <style>
-#$id { list-style: none; background:white; $css_main; }
-#$id .textSlide { $css_textslide; }
+#$id { list-style: none; background:white; <?php echo $css_main; ?> }
+#$id .textSlide { <?php echo $css_textslide; ?> }
 #$id .textSlide h3 { font-size: 1.4em; margin: 4px 0 16px 0; }
 #$id .textSlide a { font-weight:bold; }
 #$id .textSlide div { margin: 20px 36px 0 12px; }

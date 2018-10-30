@@ -11,7 +11,7 @@
 // @TODO Use AMD for JS scripts
 
 elgg_register_event_handler('init','system','slider_plugin_init');
-elgg_register_event_handler('pagesetup','system','slider_pagesetup');
+elgg_register_event_handler('ready','system','slider_system_ready');
 
 function slider_plugin_init() {
 	
@@ -169,7 +169,7 @@ function slider_page_handler($page) {
 
 
 // Fonctions à exécuter après le chargement de tous les plugins
-function slider_pagesetup() {
+function slider_system_ready() {
 	
 	// Add slider shortcode for easier embedding of sliders
 	if (elgg_is_active_plugin('shortcodes')) {
