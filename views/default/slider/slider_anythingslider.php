@@ -2,6 +2,22 @@
 /* AnythingSlider display slider
 */
 
+// JS
+elgg_require_js('slider.anythingslider.js');
+elgg_require_js('slider.anythingslider.easing.js');
+elgg_require_js('slider.anythingslider.swf.js');
+elgg_require_js('slider.anythingslider.video.js');
+// CSS
+elgg_require_css('slider.anythingslider.css');
+elgg_require_css('slider.anythingslider.css');
+// Themes
+elgg_require_css('slider.anythingslider.theme-construction.css');
+elgg_require_css('slider.anythingslider.theme-cs-portfolio.css');
+elgg_require_css('slider.anythingslider.theme-metallic.css');
+elgg_require_css('slider.anythingslider.theme-minimalist-round.css');
+elgg_require_css('slider.anythingslider.theme-minimalist-square.css');
+
+
 // Slider parameters
 $slider_theme = elgg_extract('theme', $vars, 'cs-portfolio'); // slider theme
 $id = elgg_extract('id', $vars); // Slider container width
@@ -105,7 +121,7 @@ $('#slider').anythingSlider({
 echo <<<HTML
 <!-- AnythingSlider #$id -->
 <script type="text/javascript">
-$(function(){
+require(['jquery', 'slider.anythingslider'], function ($, anythingSlider) {
 	$('#$id').anythingSlider({
 		theme : '$slider_theme', // default, cs-portfolio, metallic, etc.
 		autoPlay : true,
@@ -124,8 +140,8 @@ $(function(){
 </script>
 
 <style>
-#$id { list-style: none; background:white; <?php echo $css_main; ?> }
-#$id .textSlide { <?php echo $css_textslide; ?> }
+#$id { list-style: none; background:white; $css_main }
+#$id .textSlide { $css_textslide }
 #$id .textSlide h3 { font-size: 1.4em; margin: 4px 0 16px 0; }
 #$id .textSlide a { font-weight:bold; }
 #$id .textSlide div { margin: 20px 36px 0 12px; }

@@ -5,6 +5,12 @@
  * Github : https://github.com/gilbitron/Nivo-Slider
  */
 
+// JS
+elgg_require_js('slider.nivoslider.js');
+// CSS
+elgg_require_css('slider.nivoslider.css');
+
+
 // Slider parameters
 $slider_theme = elgg_extract('theme', $vars, 'cs-portfolio'); // slider theme
 $id = elgg_extract('id', $vars); // Slider container width
@@ -62,7 +68,7 @@ Effects : sliceDown, sliceDownLeft, sliceUp, sliceUpLeft, sliceUpDown, sliceUpDo
 echo <<<HTML
 <!-- Slider #$id -->
 <script type="text/javascript">
-$(window).load(function() {
+require(['jquery', 'slider.nivoslider'], function ($, nivoSlider) {
 	$('#$id').nivoSlider();
 });
 </script>

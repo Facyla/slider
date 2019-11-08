@@ -4,6 +4,12 @@
  * Documentation : http://responsiveslides.com/
  */
 
+// JS
+elgg_require_js('slider.responsiveslides.js');
+// CSS
+elgg_require_css('slider.responsiveslides.css');
+
+
 // Slider parameters
 $slider_theme = elgg_extract('theme', $vars, 'cs-portfolio'); // slider theme
 $id = elgg_extract('id', $vars); // Slider container width
@@ -50,7 +56,7 @@ $(".rslides").responsiveSlides({
 echo <<<HTML
 <!-- Slider #$id -->
 <script type="text/javascript">
-$(function(){
+require(['jquery', 'slider.responsiveslides'], function ($, responsiveSlides) {
 	$("#$id").responsiveSlides({
 		auto: true,             // Boolean: Animate automatically, true or false
 		speed: 500,            // Integer: Speed of the transition, in milliseconds

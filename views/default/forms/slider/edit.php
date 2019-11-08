@@ -1,34 +1,35 @@
 <?php
-elgg_load_js('elgg.slider.edit');
+//elgg_load_js('elgg.slider.edit');
+//elgg_require_js("slider/edit");
 
 // Advanced editor mode by default for admins only
 $advanced_mode = get_input('edit_mode', '');
 if (!empty($advanced_mode)) {
-	if ($advanced_mode == 'basic') $advanced_mode = false;
-	else $advanced_mode = true;
+	if ($advanced_mode == 'basic') { $advanced_mode = false; }
+	else { $advanced_mode = true; }
 } else {
 	$advanced_mode = elgg_is_admin_logged_in();
 }
 
 $edit_mode_toggle = '<p>' . elgg_echo('slider:edit_mode') . '&nbsp;: 
-	<strong class="slider-mode-basic">' . elgg_echo('slider:edit_mode:basic') . '</strong>
-	<a href="javascript:void(0);" onClick="javascript:elgg.slider.edit.mode(\'basic\');" class="slider-mode-full">' . elgg_echo('slider:edit_mode:basic') . '</a>
+	<strong class="slider-mode-basic hidden">' . elgg_echo('slider:edit_mode:basic') . '</strong>
+	<a href="javascript:void(0);" id="slider-edit-mode-basic" class="slider-mode-full">' . elgg_echo('slider:edit_mode:basic') . '</a>
 	 / 
 	<strong class="slider-mode-full">' . elgg_echo('slider:edit_mode:full') . '</strong>
-	<a href="javascript:void(0);" onClick="javascript:elgg.slider.edit.mode(\'full\')" class="slider-mode-basic">' . elgg_echo('slider:edit_mode:full') . '</a>
+	<a href="javascript:void(0);" id="slider-edit-mode-full" class="slider-mode-basic hidden">' . elgg_echo('slider:edit_mode:full') . '</a>
 	</p>';
 
 $edit_mode_toggle .= '<script>';
 if ($advanced_mode) {
 	$edit_mode_toggle .= '
-		$(document).ready(function() {
-			elgg.slider.edit.mode(\'full\');
+		require([\'jquery\', \'slider/edit\'], function ($, slider) {
+//			slider.editMode(\'full\');
 		});
 		';
 } else {
 	$edit_mode_toggle .= '
-		$(document).ready(function() {
-			elgg.slider.edit.mode(\'basic\');
+		require([\'jquery\', \'slider/edit\'], function ($, slider) {
+//			slider.editMode(\'basic\');
 		});
 		';
 }
@@ -36,7 +37,7 @@ $edit_mode_toggle .= '</script>';
 
 // Get current slider (if exists)
 $slider = elgg_extract('entity', $vars);
-if (elgg_instanceof($slider, 'object', 'slider')) {
+if ($slider instanceof ElggSlider) {
 	$guid = get_input('guid', false);
 	// Add support for unique identifiers
 	$slider = slider_get_entity_by_name($guid);
@@ -46,7 +47,7 @@ if (elgg_instanceof($slider, 'object', 'slider')) {
 $editor_opts = array('rawtext' => elgg_echo('slider:editor:no'), 'longtext' => elgg_echo('slider:editor:yes'));
 
 // Get slider vars
-if (elgg_instanceof($slider, 'object', 'slider')) {
+if ($slider instanceof ElggSlider) {
 	$slider_title = $slider->title; // Slider title, for easier listing
 	$slider_name = $slider->name; // Slider title, for easier listing
 	if (empty($slider_name) && !empty($slider_title)) {
@@ -238,8 +239,10 @@ echo $edit_mode_toggle;
 // Display the form - Affichage du formulaire
 echo elgg_view('input/form', array('action' => elgg_get_site_url() . "action/slider/edit", 'body' => $content, 'id' => "slider-edit-form", 'enctype' => 'multipart/form-data'));
 
-// Informations on embed and insert
-if ($slider) {
+
+// More informations on existing sliders
+if ($slider instanceof ElggSlider) {
+	// Informations on embed and insert
 	echo '<h3><i class="fa fa-info-circle"></i>' . elgg_echo('slider:embed:instructions') . '</h3>';
 	echo '<p><blockquote>';
 	echo elgg_echo('slider:iframe:instructions', array($slider->guid)) . '<br />';
@@ -249,10 +252,8 @@ if ($slider) {
 		if (elgg_is_active_plugin('shortcodes')) { echo elgg_echo('slider:cmspages:instructions:shortcode', array($slider->guid)) . '<br />'; }
 	}
 	echo '</blockquote></p>';
-}
-
-// Prévisualisation
-if ($slider) {
+	
+	// Prévisualisation
 	echo '<div class="clearfloat"></div><br /><br />';
 	echo '<a href="' . $slider->getURL() . '" style="float:right" target="_blank" class="elgg-button elgg-button-action">' . elgg_echo('slider:edit:view') . '</a>';
 	echo '<h2>' . elgg_echo('slider:edit:preview') . '</h2>';

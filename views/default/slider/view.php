@@ -9,7 +9,7 @@ if (!$slider) {
 	$slider = get_entity($guid);
 }
 if (!$slider) { $slider = slider_get_entity_by_name($guid); }
-if (!elgg_instanceof($slider, 'object', 'slider')) { return; }
+if (!$slider instanceof ElggSlider) { return; }
 
 // Add entity to $vars, so other views do not have to compute it again
 $vars['entity'] = $slider;

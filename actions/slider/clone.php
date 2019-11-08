@@ -9,7 +9,7 @@
  * @link http://id.facyla.net/
  */
 
-gatekeeper();
+elgg_gatekeeper();
 
 // Get slider entity, if it exists
 $guid = get_input('guid', false);
@@ -23,7 +23,7 @@ if ($allow_cloning != 'yes') {
 }
 
 // Check existing object, or create a new one
-if (elgg_instanceof($slider, 'object', 'slider') && $slider->canEdit()) {
+if ($slider instanceof ElggSlider && $slider->canEdit()) {
 	$new_slider = clone $slider;
 }
 

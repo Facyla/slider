@@ -1,9 +1,10 @@
 <?php
 $entity = elgg_extract('entity', $vars);
-if (!elgg_instanceof($entity, 'object', 'slider')) { return; }
+if (!$entity instanceof ElggSlider) { return; }
 
 $tags = $entity->tags;
 $title = $entity->title;
+if (empty($title)) { $title = elgg_echo('slider:notitle') . ' ' . elgg_get_excerpt(implode($entity->slides)); }
 $pagetype = $entity->pagetype;
 $description = $entity->description;
 $access = $entity->access_id;

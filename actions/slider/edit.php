@@ -9,7 +9,7 @@
  * @link http://id.facyla.net/
  */
 
-gatekeeper();
+elgg_gatekeeper();
 
 // Cache to the session
 elgg_make_sticky_form('slider');
@@ -37,14 +37,14 @@ if (!$slider) $slider = slider_get_entity_by_name($guid);
 
 // Check if slider name already exists (for another slider)
 $existing_slider = slider_get_entity_by_name($slider_name);
-if ($existing_slider && elgg_instanceof($slider, 'object', 'slider') && elgg_instanceof($existing_slider, 'object', 'slider') && ($existing_slider->guid != $slider->guid)) {
+if ($existing_slider && $slider instanceof ElggSlider && $existing_slider instanceof ElggSlider && ($existing_slider->guid != $slider->guid)) {
 	register_error(elgg_echo('slider:error:alreadyexists'));
 	forward(REFERER);
 }
 
 
 // Check existing object, or create a new one
-if (!elgg_instanceof($slider, 'object', 'slider')) {
+if (!$slider instanceof ElggSlider) {
 	$slider = new ElggSlider();
 	$slider->save();
 }

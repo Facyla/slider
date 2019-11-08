@@ -8,11 +8,12 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
 */
 
+elgg_gatekeeper();
+
 $guid = (int) get_input('guid');
 
-gatekeeper();
 if ($slider = get_entity($guid)) {
-	if (elgg_instanceof($slider, 'object', 'slider')) {
+	if ($slider instanceof ElggSlider) {
 		if ($slider->canEdit()) {
 			if ($slider->delete()) {
 				system_message(elgg_echo("slider:deleted"));

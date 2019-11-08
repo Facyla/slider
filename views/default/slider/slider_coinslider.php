@@ -5,6 +5,12 @@
  * Github : https://github.com/kopipejst/coin-slider
  */
 
+// JS
+elgg_require_js('slider.coinslider.js');
+// CSS
+elgg_require_css('slider.coinslider.css');
+
+
 // Slider parameters
 $slider_theme = elgg_extract('theme', $vars, 'cs-portfolio'); // slider theme
 $id = elgg_extract('id', $vars); // Slider container width
@@ -58,7 +64,7 @@ hoverPause: true // pause on hover
 echo <<<HTML
 <!-- Slider #$id -->
 <script type="text/javascript">
-$(document).ready(function() {
+require(['jquery', 'slider.coinslider'], function ($, coinslider) {
 	$('#$id').coinslider();
 });
 </script>

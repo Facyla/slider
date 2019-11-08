@@ -64,10 +64,6 @@ if (!isset($vars['id']) || empty($vars['id'])) {
 }
 
 
-// Load required libraries
-slider_load_libraries($slider_vendor);
-
-
 // Prepare vendor view params
 $slider_vars = array(
 		'vendor' => $slider_vendor,

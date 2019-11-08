@@ -1,14 +1,14 @@
 <?php
 // Get current slider (if exists)
 $slider = elgg_extract('entity', $vars);
-if (elgg_instanceof($slider, 'object', 'slider')) {
+if ($slider instanceof ElggSlider) {
 	$guid = get_input('guid', false);
 	// Add support for unique identifiers
 	$slider = slider_get_entity_by_name($guid);
 }
 
 // Get slider vars
-if (!elgg_instanceof($slider, 'object', 'slider')) { return; }
+if (!$slider instanceof ElggSlider) { return; }
 
 $allow_cloning = elgg_get_plugin_setting('enable_cloning', 'slider');
 if ($allow_cloning != 'yes') { return; }

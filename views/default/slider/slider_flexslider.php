@@ -4,6 +4,12 @@
  * Documentation : http://flexslider.woothemes.com/
  */
 
+// JS
+elgg_require_js('slider.flexslider.js');
+// CSS
+elgg_require_css('slider.flexslider.css');
+
+
 // Slider parameters
 $slider_theme = elgg_extract('theme', $vars, 'cs-portfolio'); // slider theme
 $id = elgg_extract('id', $vars); // Slider container width
@@ -48,7 +54,7 @@ echo <<<HTML
 <!-- Slider #$id -->
 <script type="text/javascript">
 // Can also be used with $(document).ready()
-$(window).load(function() {
+require(['jquery', 'slider.flexslider'], function ($, flexslider) {
 	$('#$id').flexslider({
 		animation: "slide"
 	});
